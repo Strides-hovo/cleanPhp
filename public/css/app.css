@@ -1,0 +1,238 @@
+body, *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body > .container{
+
+    padding-bottom: 90px;
+    min-height: calc(100vh - 90px);
+}
+
+
+header{
+    display: flex;
+    align-items: center;
+    background-color: #3ee0e7;
+}
+
+header > .title {
+    margin: 0 auto 0 33%;
+    text-transform: uppercase;
+}
+
+
+footer{
+
+    display: flex;
+    background-color: #3ee0e7;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 15px 35px;
+
+}
+
+footer > button{
+    padding: 15px 25px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-left: 5px;
+    background: transparent;
+    border: 1px solid darkblue;
+    outline: none;
+}
+
+
+main  {
+    display: flex;
+    min-height: calc(100vh - 175px);
+}
+
+
+main .comments {
+    width: 70%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+main .comments .cart {
+    padding: 15px;
+    border: 1px solid #eee;
+    display: flex;
+    flex-wrap: wrap;
+    width: calc((100% - 35px) / 5 );
+    margin-left: 7px;
+}
+main .comments .cart:last-child{
+    margin-left: 0;
+}
+main  .comments .cart div{
+    width: 100%;
+}
+
+
+
+
+main .form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 20%;
+    padding: 30px;
+    border: 1px solid #d9d6d6;
+    margin: 23px 0;
+}
+
+.form-group {
+    width: 100%;
+}
+
+
+main .form label {
+    display: block;
+}
+
+
+main .form  input {
+    padding: 10px 25px;
+    outline: none;
+    border: 1px solid #3ee0e7;
+    margin: 10px 0;
+    width: 100%;
+}
+
+main .form  textarea {
+    padding: 10px 25px;
+    outline: none;
+    border: 1px solid #3ee0e7;
+    margin: 10px 0;
+    width: 100%;
+    min-height: 100px;
+}
+
+
+main .form  button.btn {
+    padding: 15px 30px;
+    background: #3ee0e7;
+    color: #000;
+    outline: none;
+    border: 1px solid #c1bfbf;
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+main .form span.danger {
+    color: red;
+    border-bottom: 1px solid;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    display: none;
+}
+
+main .form span.danger.invalid{
+    display: block;
+}
+
+.overwrite {
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    background: #a3a3a361;
+    width: 100%;
+    height: 100vh;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .5s;
+}
+
+
+.overwrite.active{
+    opacity: 1;
+    visibility: visible;
+}
+
+.loader {
+    transform: rotateZ(45deg);
+    perspective: 1000px;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    color: #fff;
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    top: 50%;
+}
+.loader:before,
+.loader:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: inherit;
+    height: inherit;
+    border-radius: 50%;
+    transform: rotateX(70deg);
+    animation: 1s spin linear infinite;
+}
+.loader:after {
+    color: #FF3D00;
+    transform: rotateY(70deg);
+    animation-delay: .4s;
+}
+
+@keyframes rotate {
+    0% {
+        transform: translate(-50%, -50%) rotateZ(0deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotateZ(360deg);
+    }
+}
+
+@keyframes rotateccw {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(-360deg);
+    }
+}
+
+@keyframes spin {
+    0%,
+    100% {
+        box-shadow: .2em 0px 0 0px currentcolor;
+    }
+    12% {
+        box-shadow: .2em .2em 0 0 currentcolor;
+    }
+    25% {
+        box-shadow: 0 .2em 0 0px currentcolor;
+    }
+    37% {
+        box-shadow: -.2em .2em 0 0 currentcolor;
+    }
+    50% {
+        box-shadow: -.2em 0 0 0 currentcolor;
+    }
+    62% {
+        box-shadow: -.2em -.2em 0 0 currentcolor;
+    }
+    75% {
+        box-shadow: 0px -.2em 0 0 currentcolor;
+    }
+    87% {
+        box-shadow: .2em -.2em 0 0 currentcolor;
+    }
+}
+
+
+
+
+
