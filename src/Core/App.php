@@ -2,7 +2,6 @@
 
 namespace App\Core;
 
-use App\Core\Contracts\IModel;
 use App\Helpers\AndataExeption;
 use RedBeanPHP\R;
 use RedBeanPHP\RedException\SQL;
@@ -19,7 +18,6 @@ class App
 
     private function __construct()
     {
-//        $this->model = $model->db;
         $configFile = __DIR__ . '/../../config.php';
         if (file_exists($configFile)){
             $this->config = require_once $configFile;

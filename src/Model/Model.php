@@ -19,7 +19,6 @@ class Model implements IModel
         'findOne' => 'find',
     ];
 
-    private array $rows = [];
     private string $table;
     private static ?Model $instance = null;
     private \RedBeanPHP\OODBBean $model;
@@ -39,11 +38,6 @@ class Model implements IModel
 
     private function __construct()
     {
-
-//        $db = app()->config('db');
-//        if ($db) {
-//            R::setup("mysql:host={$db['host']};dbname={$db['dbname']}", $db['username'], $db['password']);
-//        }
         $this->db = app()->getDb();
             $this
             ->setTable()

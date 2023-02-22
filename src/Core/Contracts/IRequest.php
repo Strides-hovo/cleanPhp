@@ -4,7 +4,6 @@ namespace App\Core\Contracts;
 
 interface IRequest
 {
-
     public function rules(): array;
     public function validateRules(): array;
     public function messages(): array;
@@ -13,6 +12,5 @@ interface IRequest
     public function unique(string $value): bool;
     public function string(string $value): bool;
     public function max(string $str, int $max ): bool;
-
 
 }

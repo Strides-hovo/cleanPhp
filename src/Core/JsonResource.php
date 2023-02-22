@@ -39,7 +39,6 @@ class JsonResource implements \JsonSerializable
     public function serialize($data): array
     {
         return [
-
             'name' => $data['name'],
             'email' => $data['email'],
             'comment' => $data['comment'],

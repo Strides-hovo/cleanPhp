@@ -17,7 +17,7 @@ class Request implements IRequest
     }
 
 
-    public function input($key)
+    public function input($key): mixed
     {
         return $this->params[$key] ?? null;
     }
@@ -66,7 +66,7 @@ class Request implements IRequest
     }
 
 
-    public function setErrorMessageFromArray(string $key, array $rule)
+    public function setErrorMessageFromArray(string $key, array $rule): void
     {
         $messages = $this->messages() ?: [];
         $name = "$key.$rule[0]";
@@ -76,7 +76,7 @@ class Request implements IRequest
     }
 
 
-    public function setErrorMessage(string $key, string $rule)
+    public function setErrorMessage(string $key, string $rule): void
     {
         $messages = $this->messages() ?: [];
         $name = "$key.$rule";
@@ -86,7 +86,7 @@ class Request implements IRequest
     }
 
 
-    public function getParam(string $key)
+    public function getParam(string $key): mixed
     {
         return $this->params[$key] ?? false;
     }

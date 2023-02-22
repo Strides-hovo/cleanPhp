@@ -2,8 +2,6 @@
 
 namespace App\Model;
 
-use RedBeanPHP\R;
-
 /**
  * @method static all()
  * @method static set(array $all)
@@ -11,12 +9,6 @@ use RedBeanPHP\R;
  */
 class Comment extends Model
 {
-
-
-
-
-
-
 
 
 }
