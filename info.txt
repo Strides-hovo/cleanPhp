@@ -1,0 +1,15 @@
+    php:
+        build:
+            context: .
+            dockerfile: docker/Php.Dockerfile
+        volumes:
+            - ./:/var/www/clean-php.loc
+        links:
+            - mysql
+    mysql:
+        image: mysql:5.7
+        ports:
+            - 33061:3306
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=cleanphp

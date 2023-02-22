@@ -17,11 +17,13 @@ button.addEventListener('click', addComment)
 async function addComment() {
 
     const form = document.querySelector('form.form');
+    const _token = document.querySelector('meta[name="_token"]').content;
+    
     const formData = new FormData(form)
-
+    formData.append('_token',_token)
     const data = formValidate(formData)
 
-    if (Object.keys(data).length === 3){
+    if (Object.keys(data).length >= 3){
         document.querySelector('.overwrite').classList.add('active')
         await  axios.post('/', data)
             .catch(error => {

@@ -19,7 +19,7 @@ class App
     private function __construct()
     {
         $configFile = __DIR__ . '/../../config.php';
-        if (file_exists($configFile)){
+        if (file_exists($configFile)) {
             $this->config = require_once $configFile;
         }
         $this->setDb();
@@ -41,15 +41,13 @@ class App
             Router::dispatch(__DIR__ . '/../../routes/web.php');
         } catch (AndataExeption $e) {
             if ($e->getParams()) {
-                echo json_encode($e->getParams(), JSON_UNESCAPED_UNICODE );
+                echo json_encode($e->getParams(), JSON_UNESCAPED_UNICODE);
             } else {
                 echo $e->getMessage();
             }
-        }
-        catch (\ReflectionException $e) {
+        } catch (\ReflectionException $e) {
             echo $e->getMessage();
-        }
-        catch (SQL $e){
+        } catch (SQL $e) {
             echo($e->getCode());
         }
     }

@@ -55,6 +55,11 @@ class Router
 
         self::setParams($method, $handler, $params, $uri, $matches);
 
+        $validateMethods = ['POST', 'PUT', 'PATCH', 'DELETE'];
+        if (in_array($_SERVER['REQUEST_METHOD'], $validateMethods)) {
+            validateCsrf($params['_token'] ?? null);
+        }
+
         if ($handler === null) {
             self::handleNotFound();
         }
@@ -132,7 +137,8 @@ class Router
 
             if (isset($route['params']) && !empty($route['params'])) {
                 $handler = $route['handler'];
-                $params = $route['params'];
+                $params = validateXss($route['params']);
+
                 break;
             }
 
@@ -142,7 +148,7 @@ class Router
             if (preg_match($routePattern, $uri, $matches)) {
                 $handler = $route['handler'];
                 array_shift($matches);
-                $params = $matches;
+                $params = validateXss($matches);
                 break;
             }
         }

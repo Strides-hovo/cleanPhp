@@ -1,6 +1,7 @@
 {
     "name": "hovik/andata.loc",
     "description": "Andata",
+    
     "autoload": {
         "psr-4": {
             "App\\": "src/"
@@ -13,10 +14,9 @@
             "email": "hovik_ghambaryan@mail.ru"
         }
     ],
-    "require-dev": {
-        "symfony/var-dumper": "^6.2"
-    },
     "require": {
-        "gabordemooij/redbean": "^5.7"
+        "gabordemooij/redbean": "^5.7",
+        "symfony/var-dumper": "^5.4"
+       
     }
 }

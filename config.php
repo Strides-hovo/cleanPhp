@@ -1,13 +1,12 @@
 <?php
 
+
 return [
     'db' => [
-        'host' => 'localhost',
-        'username' => 'root',
-        'password' => 'root',
-        'dbname' => 'doctrine',
+        'host' => getenv('DB_HOST') ?? 'localhost',
+        'username' => getenv('DB_USERNAME') ?? 'root',
+        'password' => getenv('DB_PASSWORD') ?? 'root',
+        'dbname' => getenv('DB_NAME') ?? 'docktrine',
     ],
     'layout' => 'default',
-
-
 ];

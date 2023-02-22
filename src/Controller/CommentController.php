@@ -2,11 +2,12 @@
 
 namespace App\Controller;
 
+use App\Core\BaseController;
 use App\Core\JsonResource;
 use App\Model\Comment;
 use App\Requests\CommentRequest;
 
-class CommentController
+class CommentController extends BaseController
 {
 
     public function store(CommentRequest $request)

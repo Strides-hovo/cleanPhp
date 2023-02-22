@@ -40,16 +40,36 @@ class Model implements IModel
     {
         $this->db = app()->getDb();
             $this
-            ->setTable()
-            ->setModel($this->table);
+                ->setTable()
+                ->setModel($this->table)
+                ->createTable();
+
         R::freeze(true);
+        
+
     }
 
+
+    private function createTable(): self
+    {
+        
+        $sql = "CREATE TABLE IF NOT EXISTS $this->table (`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,`name` VARCHAR(150) NOT NULL,`comment` TEXT,`email` VARCHAR(150) NOT NULL UNIQUE,`created_at` DATETIME DEFAULT CURRENT_TIMESTAMP)";
+        try {
+            R::freeze(false);
+            // выполняем операции с библиотекой RedBeanPHP
+            R::exec($sql);
+            R::freeze(true);
+        }
+        catch (\Exception $e){
+            echo $e->getMessage();
+        }
+        return $this;
+    }
 
     /**
      * @throws \ErrorException
      */
-    public static function __callStatic(string $name, array $arguments)
+    public static function __callStatic(string $name, array $arguments): self
     {
         if (in_array($name, array_keys(self::METHODS))) {
             $model = new static();
@@ -76,7 +96,7 @@ class Model implements IModel
     /**
      * @throws AndataExeption
      */
-    public function store($data)
+    public function store($data): int|string
     {
         $this->model->import($data);
         try {
@@ -87,7 +107,11 @@ class Model implements IModel
     }
 
 
-    public function setTable(): self
+    /**
+     * @return $this
+     * system methods
+     */
+    private function setTable(): self
     {
         $class = explode('\\', get_called_class());
         $this->table = strtolower(end($class)) . 's';
@@ -95,10 +119,21 @@ class Model implements IModel
     }
 
 
-    public function setModel(string $model): self
+    private function setModel(string $model): self
     {
         $this->model = R::dispense($model);
         return $this;
+    }
+
+
+    private function getAllColumnNames(): array
+    {
+       return R::inspect($this->table);
+    }
+
+    private function dropAllTables(): void
+    {
+        R::nuke();
     }
 
 }
