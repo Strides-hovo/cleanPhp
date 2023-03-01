@@ -2,20 +2,25 @@
 
 namespace App\Core;
 
+use App\Core\Traits\BaseInstance;
 use App\Helpers\AndataExeption;
+use Exception;
 use RedBeanPHP\R;
 use RedBeanPHP\RedException\SQL;
+use RedBeanPHP\ToolBox;
 
 class App
 {
+    use BaseInstance;
 
-    private static ?App $instance = null;
-
-    public \RedBeanPHP\ToolBox $model;
+    public ToolBox $model;
     private array $config;
 
-    private \RedBeanPHP\ToolBox $db;
+    private ToolBox $db;
 
+    /**
+     * @throws AndataExeption
+     */
     private function __construct()
     {
         $configFile = __DIR__ . '/../../config.php';
@@ -23,15 +28,6 @@ class App
             $this->config = require_once $configFile;
         }
         $this->setDb();
-    }
-
-
-    public static function getInstance(): ?App
-    {
-        if (self::$instance === null) {
-            self::$instance = new self();
-        }
-        return self::$instance;
     }
 
 
@@ -59,18 +55,22 @@ class App
     }
 
 
-    public function setDb()
+    /**
+     * @throws AndataExeption
+     */
+    public function setDb(): void
     {
-        $db = $this->config('db');
-        if ($db) {
+
+        try {
+            $db = $this->config('db');
             $this->db = R::setup("mysql:host={$db['host']};dbname={$db['dbname']}", $db['username'], $db['password']);
+        } catch (Exception $e) {
+            throw new AndataExeption("Error Connection database", 500);
         }
     }
 
-    /**
-     * @return \RedBeanPHP\ToolBox
-     */
-    public function getDb(): \RedBeanPHP\ToolBox
+
+    public function getDb(): ToolBox
     {
         return $this->db;
     }

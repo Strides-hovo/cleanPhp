@@ -5,6 +5,7 @@ namespace App\Core;
 
 use App\Core\Contracts\IRequest;
 use App\Helpers\AndataExeption;
+use ReflectionException;
 
 
 class Router
@@ -43,7 +44,7 @@ class Router
 
     /**
      * @throws AndataExeption
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public static function dispatch(string $routesPath): void
     {
@@ -66,79 +67,32 @@ class Router
         self::setControllerAction($handler);
         $controller = new self::$controllerName();
         $actionName = self::$actionName;
-        $params = self::setDependence($controller, $params);
 
-        $controller->$actionName($params);
+        $deps = self::setDependencies($controller, $actionName, $params);
+        //$params = self::setDependence($controller, $params);
+
+        $controller->$actionName(...$deps);
         exit;
     }
 
 
-    public static function setControllerAction(string $handler): void
-    {
-        $handlerSegments = explode('@', $handler);
-        self::$controllerName = 'App\\Controller\\' . $handlerSegments[0];
-        self::$actionName = $handlerSegments[1];
-
-    }
 
 
-    /**
-     * @param string $className
-     * @param array $params
-     * @return mixed
-     */
-    public static function getExtends(string $className, array $params = []): mixed
-    {
-        return new $className($params);
-    }
 
 
-    /**
-     * @throws \ReflectionException
-     */
-    public static function resolveClass(BaseController $controller, string $actionName): array
-    {
-        $ref = new \ReflectionClass($controller);
-        $params = $ref->getMethod($actionName)->getParameters();
-        $deps = [];
-        if ($params) {
-            foreach ($params as $param) {
-                $name = $param->getType()->getName();
-                $deps[] = self::getExtends($name, $params);
-            }
-        }
-        return $deps;
-
-    }
 
 
-    /**
-     * @throws AndataExeption
-     */
-    private static function handleNotFound(): void
-    {
-        throw new AndataExeption('Page not found', 404);
-    }
 
-    /**
-     * @param mixed $method
-     * @param mixed $handler
-     * @param mixed $params
-     * @param bool|array|int|string|null $uri
-     * @param $matches
-     * @return void
-     */
-    private static function setParams(mixed $method, mixed &$handler, mixed &$params, bool|array|int|string|null $uri, &$matches): void
+
+    private static function setParams(mixed $method, mixed &$handler, mixed &$params, int|string|null $uri, &$matches): void
     {
         foreach (self::$routes as $route) {
             if ($route['method'] !== $method) {
                 continue;
             }
-
             if (isset($route['params']) && !empty($route['params'])) {
                 $handler = $route['handler'];
                 $params = validateXss($route['params']);
-
                 break;
             }
 
@@ -154,29 +108,86 @@ class Router
         }
     }
 
-    /**
-     * @param mixed $controller
-     * @param mixed $params
-     * @return array|IRequest
-     * @throws AndataExeption
-     * @throws \ReflectionException
-     */
-    private static function setDependence(mixed $controller, mixed $params): IRequest|array
+
+
+
+
+
+
+    private static function setControllerAction(string $handler): void
     {
-        $deps = self::resolveClass($controller, self::$actionName);
+        $handlerSegments = explode('@', $handler);
+        self::$controllerName = 'App\\Controller\\' . $handlerSegments[0];
+        self::$actionName = $handlerSegments[1];
 
-        if (!empty($deps)) {
-            foreach ($deps as $dep) {
-                $params = new $dep($params);
-            }
-            $errors = $params->validateRules();
+    }
 
-            if (!empty($errors)) {
-                throw new AndataExeption(reset($errors), 429, $errors);
+
+
+
+
+
+    /**
+     * @throws ReflectionException
+     * @return IRequest[]
+     */
+    private static function setDependencies(BaseController $controller, string $actionName, array $params = []): array
+    {
+        $ref = new \ReflectionClass($controller);
+        $deps_params = $ref->getMethod($actionName)->getParameters();
+
+        $deps = [];
+        if ($deps_params) {
+            foreach ($deps_params as $param) {
+                $name = $param->getType()->getName();
+                //dump( $name, $params );
+                $deps[] = self::getExtends($name, $params);
             }
         }
-        return $params;
+        return $deps;
+
     }
+
+    public static function resolveClass( string $className )
+    {
+        $ref = new \ReflectionClass($className);
+        $constructor = $ref->getConstructor();
+        $params = $constructor->getParameters();
+        $deps = [];
+        if ($params) {
+            foreach ($params as $param) {
+                $name = $param->getType()->getName();
+                $deps[] = self::resolveClass($name);
+            }
+        }
+
+        return $deps;
+
+    }
+
+
+
+
+    private static function getExtends(string $className, array $params = []): mixed
+    {
+
+        return new $className($params);
+    }
+
+
+
+
+
+    /**
+     * @throws AndataExeption
+     */
+    private static function handleNotFound(): void
+    {
+        throw new AndataExeption('Page not found', 404);
+    }
+
+
+
 
 
 }

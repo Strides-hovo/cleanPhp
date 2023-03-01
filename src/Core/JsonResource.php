@@ -3,7 +3,7 @@
 namespace App\Core;
 
 
-use ReturnTypeWillChange;
+use JetBrains\PhpStorm\ArrayShape;
 
 class JsonResource implements \JsonSerializable
 {
@@ -22,7 +22,7 @@ class JsonResource implements \JsonSerializable
         return json_encode($this->toArray(), JSON_PRETTY_PRINT);
     }
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): string|bool
     {
         return json_encode($this->serialize($this->data), JSON_PRETTY_PRINT);
     }
@@ -36,6 +36,7 @@ class JsonResource implements \JsonSerializable
     }
 
 
+    #[ArrayShape(['name' => "mixed", 'email' => "mixed", 'comment' => "mixed", 'created_at' => "mixed"])]
     public function serialize($data): array
     {
         return [

@@ -2,6 +2,8 @@
 
 namespace App\Model;
 
+use App\Core\Model;
+
 /**
  * @method static all()
  * @method static set(array $all)
@@ -9,6 +11,5 @@ namespace App\Model;
  */
 class Comment extends Model
 {
-
 
 }

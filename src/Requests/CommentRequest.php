@@ -12,11 +12,10 @@ class CommentRequest extends Request implements IRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:100',
-            'email' => 'required|string|max:100|email|unique',
+            'name' => 'required|string|max:25',
+            'email' => 'required|string|max:25|email|unique:comments',
             'comment' => 'required|string',
         ];
-
 
     }
 
@@ -28,7 +27,7 @@ class CommentRequest extends Request implements IRequest
             'name.max' => 'Поля %s должен быть менше %d строкой.',
             'email.required' => 'Поля  %s Обезателно',
             'email.string' => 'Поля  %s должен быть строкой',
-            'email.max' => 'Поля %s должен быть менше строкой.',
+            'email.max' => 'Поля %s должен быть менше %d  строкой.',
             'email.email' => 'Поля  %s должен быть почтай.',
             'email.unique' => 'Такое %s уже есть.',
             'comment.required' => 'Поля  %s Обезателно',

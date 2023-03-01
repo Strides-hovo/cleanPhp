@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
-use App\Core\BaseController;
+use App\Model\User;
 use App\Model\Comment;
+use App\Core\BaseController;
 
 class HomeController extends BaseController
 {
@@ -11,6 +12,10 @@ class HomeController extends BaseController
     public function index()
     {
         $comments =  Comment::all();
+
+
+
+        // dd($users);
         $this->view('default', ['comments' => $comments, 'title' => 'home Page']);
     }
 

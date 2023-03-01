@@ -3,7 +3,7 @@
 namespace App\Helpers;
 
 
-use JetBrains\PhpStorm\NoReturn;
+use JetBrains\PhpStorm\Pure;
 
 
 class AndataExeption extends \Exception
@@ -11,10 +11,10 @@ class AndataExeption extends \Exception
 
     private array $_params = [];
 
-    #[NoReturn] public function __construct(string $message = "", int $code = 0, array $params = [], ?\Throwable $previous = null)
+    #[Pure]
+    public function __construct(string $message = "", int $code = 400, array $params = [], ?\Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
-        http_response_code($this->getCode());
         $this->_params = $params;
 
     }

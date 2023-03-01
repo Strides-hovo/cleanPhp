@@ -26,18 +26,20 @@ async function addComment() {
     if (Object.keys(data).length >= 3){
         document.querySelector('.overwrite').classList.add('active')
         await  axios.post('/', data)
+            .then(response => {
+                const comment = getHtmlComment( response.data )
+                setCommentDocument(comment )
+            })
             .catch(error => {
                 if ('response' in error){
                     const data = error.response.data
+                    console.log(data)
                     for (let key in data){
                         const errorElement = document.querySelector(`[name=${key}]`).nextElementSibling
                         setErrorText(errorElement, data[key])
                     }
                 }
-
-            }).then(response => {
-                const comment = getHtmlComment( response.data )
-                setCommentDocument(comment )
+            }).finally(() => {
                 document.querySelector('.overwrite').classList.remove('active')
             })
     }
