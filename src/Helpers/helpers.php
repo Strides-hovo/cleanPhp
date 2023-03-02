@@ -51,3 +51,14 @@ function setSession(string $key, mixed $value): string
 }
 
 
+function config(string $key = ''): string|array
+{
+    $configFile = __DIR__ . './../../config.php';
+    static $config;
+    if (file_exists($configFile) && !$config) {
+        $config = require_once $configFile;
+    }
+
+    return $config[$key] ?? $config;
+}
+

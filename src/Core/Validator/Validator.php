@@ -31,14 +31,14 @@ class Validator
         if (!empty($this->rules)) {
             foreach ($this->rules as $key => $rule) {
                 $rule_methods = preg_split("/[|]+/", $rule);
-                $value = $this->params[$key];
+                $value = $this->params[$key] ?? null;
                 $this->ValidatorsInitialization($rule_methods, $value);
             }
         }
     }
 
 
-    public function ValidatorsInitialization(array $rule_methods, string $value): void
+    public function ValidatorsInitialization(array $rule_methods, ?string $value): void
     {
         foreach ($rule_methods as $validate) {
             try {

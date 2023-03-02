@@ -55,6 +55,7 @@ trait ModelSystem
     {
         $fields = $this->getFieldsToSql();
         $sql = "CREATE TABLE IF NOT EXISTS $this->table ( $fields )";
+
         try {
             R::freeze(false);
             // выполняем операции с библиотекой RedBeanPHP

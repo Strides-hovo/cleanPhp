@@ -9,4 +9,6 @@ return [
         'dbname' => getenv('DB_NAME') ?: 'doctrine',
     ],
     'layout' => 'default',
+    'db_driver' => 'mysql',// mysql, postgresql, sqlite
+    'db_file' => 'C:/OpenServer/domains/andata.loc/sqlite.db'
 ];

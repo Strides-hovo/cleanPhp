@@ -22,8 +22,8 @@ async function addComment() {
     const formData = new FormData(form)
     formData.append('_token',_token)
     const data = formValidate(formData)
-
-    if (Object.keys(data).length >= 3){
+    console.log(data)
+    if (data && Object.keys(data).length >= 3){
         document.querySelector('.overwrite').classList.add('active')
         await  axios.post('/', data)
             .then(response => {
@@ -33,7 +33,6 @@ async function addComment() {
             .catch(error => {
                 if ('response' in error){
                     const data = error.response.data
-                    console.log(data)
                     for (let key in data){
                         const errorElement = document.querySelector(`[name=${key}]`).nextElementSibling
                         setErrorText(errorElement, data[key])
@@ -56,24 +55,26 @@ function setCommentDocument(comment ) {
 
 function formValidate( formData ){
     const data = {}
+    let error = false
     formData.forEach((el,key) => {
         const errorElement =  document.querySelector(`[name=${key}]`).nextElementSibling
         errorElement.classList.remove('invalid')
         if ( el.trim().length < 3 ){
             setErrorText(errorElement, `Поля ${key} обезателно для зополнение мнимум 3 символа`)
-            return  false
+            error = true
         }
         if (key === 'email'){
             const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
             if (!el.match(validRegex)){
                 setErrorText(errorElement, `Поля ${key} заполнено не провилно`)
-                return false
+                error = true
             }
         }
 
         data[key] = el
     })
-    return data
+
+    return error ? error : data
 }
 
 

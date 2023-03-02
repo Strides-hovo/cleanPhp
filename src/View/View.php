@@ -9,7 +9,7 @@ class View
     public function view(string $partialName, array $params = [])
     {
         if (!self::$LAYOUT) {
-            self::$LAYOUT = app()->config('layout');
+            self::$LAYOUT = config('layout');
         }
         $layout = RESOURCES . '/layouts/' . self::$LAYOUT . '.php';
         $partialName = RESOURCES . '/views/' . $partialName . '.php';

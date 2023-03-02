@@ -53,10 +53,4 @@ class Request implements IRequest
     }
 
 
-    public function __toString(): string
-    {
-        return $this->params[0] ?? '';
-    }
-
-
 }
